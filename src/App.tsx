@@ -1,14 +1,22 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register/Register";
+import Login from "./pages/Login/Login";
 import "./App.css";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <div className="blur" style={{ top: "-18%", right: "0" }}></div>
-      <div className="blur" style={{ top: "35%", left: "-8rem" }}></div>
-      <Register />
-    </div>
+    <Router>
+      <div>
+        <div className="blur" style={{ top: "-18%", right: "0" }}></div>
+        <div className="blur" style={{ top: "50%", left: "-8rem" }}></div>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
