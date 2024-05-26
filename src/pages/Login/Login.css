@@ -1,9 +1,9 @@
-.register-title {
+.login-title {
     text-align: center;
     padding-bottom: 2rem;
 }
 
-.login-link {
+.signup-link {
     text-align: center;
     display: inline-block;
 }

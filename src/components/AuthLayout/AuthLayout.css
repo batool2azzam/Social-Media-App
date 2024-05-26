@@ -1,0 +1,60 @@
+.auth-container {
+    height: 100vh;
+    display: flex;
+    background-color: #f0f2f5;
+}
+
+.register-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.logo-image {
+    width: 4.5rem;
+    height: 4.5rem;
+}
+
+.logo-info {
+    gap: 2rem;
+}
+
+.logo-name {
+    font-size: 3rem;
+    font-weight: 900;
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding-bottom: 1rem;
+}
+
+
+.tagline {
+    padding-top: 1rem;
+    display: inline-block;
+}
+
+.auth-form-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.blur {
+    position: absolute;
+    width: 22rem;
+    height: 20rem;
+    border-radius: 50%;
+    background: #a6ddf0;
+    filter: blur(72px);
+}
+
+@media (max-width: 992px) {
+    .blur {
+        display: none;
+    }
+}
