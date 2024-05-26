@@ -1,12 +1,19 @@
 // src/components/AuthLayout.tsx
-import React from 'react';
-import { Grid, Typography } from '@mui/material';
-import logo from '../../assets/images/logo.png';
-import './AuthLayout.css';
+import React from "react";
+import { Grid, Typography } from "@mui/material";
+import logo from "../../assets/images/logo.png";
+import "./AuthLayout.css";
 
-const AuthLayout: React.FC = ({ children }: any ) => {
+const AuthLayout: React.FC<{ children: JSX.Element }> = ({ children }) => {
   return (
-    <Grid container className="auth-container" alignItems="center" justifyContent="center">
+    <Grid
+      container
+      className="auth-container"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <div className="blur" style={{ top: "-18%", right: "0" }}></div>
+      <div className="blur" style={{ top: "50%", left: "-8rem" }}></div>
       <Grid item xs={12} md={4} className="auth-left">
         <img src={logo} alt="Logo" className="logo-image" />
         <div className="logo-info">
@@ -14,12 +21,13 @@ const AuthLayout: React.FC = ({ children }: any ) => {
             variant="h2"
             className="logo-name"
             sx={{
-              backgroundImage: 'linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)',
+              backgroundImage:
+                "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
               fontWeight: 800,
-              color: 'transparent',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              color: "transparent",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
             }}
           >
             ZKC Media
@@ -29,7 +37,13 @@ const AuthLayout: React.FC = ({ children }: any ) => {
           </Typography>
         </div>
       </Grid>
-      <Grid item xs={12} md={4.5} className="auth-form-container" sx={{ borderRadius: 5 }}>
+      <Grid
+        item
+        xs={12}
+        md={4.5}
+        className="auth-form-container"
+        sx={{ borderRadius: 5 }}
+      >
         {children}
       </Grid>
     </Grid>
