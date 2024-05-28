@@ -1,0 +1,28 @@
+.followers {
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: transparent !important;
+    box-shadow: none
+}
+
+
+.follower-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    margin-top: 10px;
+}
+
+.follow-button {
+    background-color: #ff7043;
+    color: white;
+    text-transform: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+}
+
+.follow-button:hover {
+    background-color: #ff5722;
+}

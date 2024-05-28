@@ -1,0 +1,23 @@
+.post {
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.post-pic {
+    width: 100%;
+    border-radius: 10px;
+    height: 300px;
+    margin-bottom: 15px;
+
+}
+
+.post-text {
+    margin-bottom: 10px;
+}
+
+.post-icons {
+    width: 100%;
+    margin-right: 20px;
+    cursor: pointer;
+}

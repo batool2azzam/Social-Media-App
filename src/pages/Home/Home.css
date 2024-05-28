@@ -1,0 +1,15 @@
+.home {
+    padding: 20px;
+    background-color: #f5f5f5;
+    z-index: 10000 !important;
+}
+
+.share-button-right {
+    background-color: #ff7043;
+    color: white;
+    border-radius: 20px;
+    padding: 6px 30px;
+    text-transform: none;
+    font-weight: bold;
+    width: 100%;
+}

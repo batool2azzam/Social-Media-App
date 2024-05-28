@@ -1,0 +1,22 @@
+.trends {
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin-bottom: 20px;
+    z-index: 99999;
+}
+
+.trend-item {
+    padding: 8px 0;
+}
+
+.trend-name {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.trend-shares {
+    color: #757575;
+    font-size: 14px;
+}
