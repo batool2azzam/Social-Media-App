@@ -23,7 +23,9 @@ const Followers: React.FC = () => {
 
   return (
     <Box className="followers">
-      <Typography variant="h6">Who is following you</Typography>
+      <Typography variant="h6">
+        <strong>Who is following you</strong>
+      </Typography>
       <List>
         {followers.map((follower) => (
           <ListItem
@@ -39,16 +41,21 @@ const Followers: React.FC = () => {
               />
             </ListItemAvatar>
             <ListItemText
-              primary={follower.name}
+              primary={
+                <Typography variant="body1" fontWeight="bold">
+                  {follower.name}
+                </Typography>
+              }
               secondary={follower.username}
             />
             <Button
               variant="contained"
-              className="follow-button"
               sx={{
+                background:
+                  "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
                 color: "white",
-                textTransform: "none",
-                bordeRadius: "29px",
+                borderRadius: 2,
+                paddingX: 2,
               }}
             >
               Follow

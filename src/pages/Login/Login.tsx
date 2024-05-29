@@ -3,12 +3,13 @@ import { Grid, TextField, Button, Typography, Link } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { login } from "../../api/api";
 import "./Login.css";
-import { Link as RouterLink } from "react-router-dom";
 
 // Validation schema
 const validationSchema = yup.object({
-  email: yup.string().required("Username is required"),
+  username: yup.string().required("Username is required"),
   password: yup
     .string()
     .required("Password is required")
@@ -16,14 +17,22 @@ const validationSchema = yup.object({
 });
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: any) => {
-      console.log(values);
+    onSubmit: async (values: any) => {
+      try {
+        const data = await login(values.username, values.password);
+        console.log("Login successful:", data);
+        navigate("/");
+      } catch (error) {
+        console.error("Login failed:", error);
+      }
     },
   });
 
@@ -40,16 +49,16 @@ const Login: React.FC = () => {
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
-            label="Email"
+            label="Username"
             margin="normal"
             variant="filled"
-            id="email"
-            name="email"
-            value={formik.values.email}
+            id="username"
+            name="username"
+            value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.email && !!formik.errors.email}
-            helperText={formik.touched.email && formik.errors.email}
+            error={formik.touched.username && !!formik.errors.username}
+            helperText={formik.touched.username && formik.errors.username}
           />
           <TextField
             fullWidth

@@ -9,73 +9,85 @@ import {
 } from "@mui/material";
 import "./AddPost.css";
 import ProfilePic from "../../assets/images/profileImg.jpg";
-import PhotoIcon from "../../assets/images/home.png";
-import VideoIcon from "../../assets/images/home.png";
-import LocationIcon from "../../assets/images/home.png";
-import ScheduleIcon from "../../assets/images/home.png";
-
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 const AddPost: React.FC = () => {
   return (
     <Card
       className="add-post"
       sx={{
-        borderRadius: "20px",
+        borderRadius: "10px",
       }}
     >
-      <CardContent>
-        <Box display="flex" alignItems="center" marginBottom={2}>
-          <Avatar
-            sx={{
-              width: "55px",
-              height: "55px",
-            }}
-            alt="Profile Picture"
-            src={ProfilePic}
-            className="profile-pic-add"
-          />
-          <TextField
-            fullWidth
-            placeholder="What's happening"
-            multiline
-            rows={1}
-            margin="normal"
-            className="text-input"
-          />
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Button
-            variant="text"
-            startIcon={<img src={PhotoIcon} alt="Photo" className="icon" />}
-          >
-            Photo
-          </Button>
-          <Button
-            variant="text"
-            startIcon={<img src={VideoIcon} alt="Video" className="icon" />}
-          >
-            Video
-          </Button>
-          <Button
-            variant="text"
-            startIcon={
-              <img src={LocationIcon} alt="Location" className="icon" />
-            }
-          >
-            Location
-          </Button>
-          <Button
-            variant="text"
-            startIcon={
-              <img src={ScheduleIcon} alt="Schedule" className="icon" />
-            }
-          >
-            Schedule
-          </Button>
-          <Button variant="contained" color="primary" className="share-button">
-            Share
-          </Button>
-        </Box>
-      </CardContent>
+      <Box display="flex" alignItems="center" marginBottom={2}>
+        <Avatar
+          sx={{
+            width: "55px",
+            height: "55px",
+          }}
+          alt="Profile Picture"
+          src={ProfilePic}
+          className="profile-pic-add"
+        />
+        <TextField
+          fullWidth
+          placeholder="What's happening"
+          multiline
+          rows={1}
+          margin="normal"
+          className="text-input"
+        />
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-around"
+        className="icons-group"
+      >
+        <Button
+          sx={{ color: "#3da468" }}
+          variant="text"
+          startIcon={<AddPhotoAlternateIcon className="add-post-icon" />}
+        >
+          Photo
+        </Button>
+        <Button
+          sx={{ color: "#677bcd" }}
+          variant="text"
+          startIcon={<PlayCircleOutlineIcon className="add-post-icon" />}
+        >
+          Video
+        </Button>
+        <Button
+          sx={{ color: "  #f87878" }}
+          variant="text"
+          startIcon={<LocationOnOutlinedIcon className="add-post-icon" />}
+        >
+          Location
+        </Button>
+        <Button
+          sx={{ marginRight: "35px" }}
+          variant="text"
+          startIcon={<CalendarMonthOutlinedIcon className="add-post-icon" />}
+        >
+          Schedule
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          className="share-button"
+          sx={{
+            background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
+            color: "white",
+            borderRadius: 2,
+            paddingX: 3,
+          }}
+        >
+          Share
+        </Button>
+      </Box>
     </Card>
   );
 };

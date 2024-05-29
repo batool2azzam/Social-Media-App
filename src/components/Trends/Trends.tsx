@@ -20,14 +20,16 @@ const trends = [
 
 const Trends: React.FC = () => {
   return (
-    <Card className="trends" sx={{ borderRadius: "20px" }}>
+    <Card className="trends" sx={{ borderRadius: "10px" }}>
       <CardContent>
-        <Typography variant="h6">Trends for you</Typography>
+        <Typography variant="h5">
+          <strong>Trends for you</strong>
+        </Typography>
         <List>
           {trends.map((trend) => (
             <ListItem key={trend.name} className="trend-item">
               <ListItemText
-                primary={trend.name}
+                primary={<strong>{trend.name}</strong>}
                 secondary={trend.shares}
                 primaryTypographyProps={{ className: "trend-name" }}
                 secondaryTypographyProps={{ className: "trend-shares" }}

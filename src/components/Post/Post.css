@@ -1,23 +1,22 @@
-.post {
-    background-color: white;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
 .post-pic {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     height: 300px;
     margin-bottom: 15px;
-
 }
 
-.post-text {
-    margin-bottom: 10px;
-}
 
 .post-icons {
     width: 100%;
     margin-right: 20px;
     cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.post {
+    background-color: white;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    padding: 17px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

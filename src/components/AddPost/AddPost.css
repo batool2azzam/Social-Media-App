@@ -1,9 +1,7 @@
 .add-post {
-    background-color: white;
-    border-radius: 20px;
-    padding: 20px;
     margin-bottom: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
 }
 
 .profile-pic-add {
@@ -18,20 +16,13 @@
     border: none;
 }
 
-.icon {
-    width: 20px;
-    height: 20px;
+.icons-group {
+    width: 90%;
+    justify-self: center;
+    padding-left: 50px;
 }
 
-.share-button {
-    background-color: #ff7043;
-    color: white;
-    border-radius: 20px;
-    padding: 5px 20px;
-    text-transform: none;
-    font-weight: bold;
-}
-
-.share-button:hover {
-    background-color: #ff5722;
+.add-post-icon {
+    width: 25px !important;
+    height: 25px !important;
 }

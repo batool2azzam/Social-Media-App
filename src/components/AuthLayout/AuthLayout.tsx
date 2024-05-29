@@ -12,8 +12,6 @@ const AuthLayout: React.FC<{ children: JSX.Element }> = ({ children }) => {
       alignItems="center"
       justifyContent="center"
     >
-      <div className="blur" style={{ top: "-18%", right: "0" }}></div>
-      <div className="blur" style={{ top: "50%", left: "-8rem" }}></div>
       <Grid item xs={12} md={4} className="auth-left">
         <img src={logo} alt="Logo" className="logo-image" />
         <div className="logo-info">

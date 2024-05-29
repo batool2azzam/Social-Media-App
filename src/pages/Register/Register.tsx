@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, TextField, Button, Typography, Link } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { register } from "../../api/api";
 import "./Register.css";
 
 // Validation schema
@@ -23,6 +24,9 @@ const validationSchema = yup.object({
 });
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+  const [file, setFile] = useState<File | null>(null);
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -33,10 +37,31 @@ const Register: React.FC = () => {
       confirmPassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values: any) => {
-      console.log(values);
+    onSubmit: async (values: any) => {
+      const userData = new FormData();
+      userData.append("username", values.username);
+      userData.append("password", values.password);
+      userData.append("name", `${values.firstName} ${values.lastName}`);
+      userData.append("email", values.email);
+      if (file) {
+        userData.append("image", file);
+      }
+
+      try {
+        const data = await register(userData);
+        console.log("Registration successful:", data);
+        navigate("/login");
+      } catch (error) {
+        console.error("Registration failed:", error);
+      }
     },
   });
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.currentTarget.files) {
+      setFile(event.currentTarget.files[0]);
+    }
+  };
 
   return (
     <AuthLayout>
@@ -106,6 +131,19 @@ const Register: React.FC = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.email && !!formik.errors.email}
             helperText={formik.touched.email && formik.errors.email}
+          />
+          <TextField
+            fullWidth
+            type="file"
+            margin="normal"
+            variant="filled"
+            id="image"
+            name="image"
+            placeholder="uploade photo"
+            onChange={handleFileChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
           <Grid container spacing={2}>
             <Grid item xs={6}>
