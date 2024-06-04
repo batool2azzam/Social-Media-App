@@ -1,0 +1,12 @@
+.home-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 27px;
+    height: 27px;
+}

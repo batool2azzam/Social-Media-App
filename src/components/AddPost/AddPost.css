@@ -1,0 +1,28 @@
+.add-post {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.profile-pic-add {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.text-input {
+    flex-grow: 1;
+    background-color: #f5f5f5;
+    border: none;
+}
+
+.icons-group {
+    width: 90%;
+    justify-self: center;
+    padding-left: 50px;
+}
+
+.add-post-icon {
+    width: 25px !important;
+    height: 25px !important;
+}

@@ -1,5 +1,23 @@
-.App {
+.app-container {
+  position: relative;
   overflow: hidden;
-  color: var(-- black);
+  color: var(--black);
   background: #f3f3f3;
+  z-index: 1;
+}
+
+.blur {
+  position: absolute;
+  width: 22rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: #a6ddf0;
+  filter: blur(72px);
+  z-index: -1;
+}
+
+@media (max-width: 992px) {
+  .blur {
+    display: none;
+  }
 }

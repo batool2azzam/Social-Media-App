@@ -1,0 +1,19 @@
+.followers {
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: transparent !important;
+    box-shadow: none;
+    font-weight: 600 !important;
+}
+
+
+.follower-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    margin-top: 10px;
+    font-weight: 600 !important;
+
+}

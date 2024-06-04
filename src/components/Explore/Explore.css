@@ -1,0 +1,21 @@
+.explore-container {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    margin-bottom: 20px;
+}
+
+.twitter-icon {
+    width: 50px;
+    height: 47px;
+    margin-right: 10px;
+}
+
+#input-with-icon-textfield {
+    width: 100%;
+    height: 30px;
+}
+
+.search-button:hover {
+    background-color: #ff7a22;
+}

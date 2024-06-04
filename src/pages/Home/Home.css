@@ -1,0 +1,28 @@
+.home {
+    padding: 20px;
+    display: flex;
+}
+
+.left-column,
+.right-column {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+}
+
+.middle-column {
+    height: 100vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.share-button-right {
+    background-color: #ff7043;
+    color: white;
+    border-radius: 20px;
+    padding: 6px 30px;
+    text-transform: none;
+    font-weight: bold;
+    width: 100%;
+}
