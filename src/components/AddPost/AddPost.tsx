@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  TextField,
-  Button,
-  Box,
-  Avatar,
-} from "@mui/material";
+import { Card, TextField, Button, Box, Avatar, Grid } from "@mui/material";
 import "./AddPost.css";
 import ProfilePic from "../../assets/images/profileImg.jpg";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -40,7 +33,8 @@ const AddPost: React.FC = () => {
           className="text-input"
         />
       </Box>
-      <Box
+      <Grid
+        container
         display="flex"
         alignItems="center"
         justifyContent="space-around"
@@ -87,7 +81,7 @@ const AddPost: React.FC = () => {
         >
           Share
         </Button>
-      </Box>
+      </Grid>
     </Card>
   );
 };

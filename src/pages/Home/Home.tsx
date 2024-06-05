@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
-import Post from "../../components/Post/Post";
+import Posts from "../../components/Posts/Posts";
 import Trends from "../../components/Trends/Trends";
 import Followers from "../../components/Followers/Followers";
 import AddPost from "../../components/AddPost/AddPost";
@@ -12,17 +12,28 @@ import Explore from "../../components/Explore/Explore";
 const Home: React.FC = () => {
   return (
     <Grid container spacing={3} className="home">
-      <Grid item xs={12} md={3} className="left-column">
+      <Grid
+        item
+        xs={12}
+        md={3}
+        className="left-column"
+        sx={{ width: "100%", paddingRight: "24px" }}
+      >
         <Explore />
         <ProfileCard />
         <Followers />
       </Grid>
       <Grid item xs={12} md={6} className="middle-column">
         <AddPost />
-        <Post />
-        <Post />
+        <Posts />
       </Grid>
-      <Grid item xs={12} md={3} className="right-column">
+      <Grid
+        item
+        xs={12}
+        md={3}
+        className="right-column"
+        sx={{ width: "100%", paddingRight: "24px", paddingLeft: "0" }}
+      >
         <IconsGroup />
         <Trends />
         <Button

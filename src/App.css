@@ -6,14 +6,28 @@
   z-index: 1;
 }
 
-.blur {
-  position: absolute;
+.blur1 {
+  position: fixed;
   width: 22rem;
   height: 20rem;
   border-radius: 50%;
   background: #a6ddf0;
   filter: blur(72px);
   z-index: -1;
+  top: -18%;
+  right: 0
+}
+
+.blur2 {
+  position: fixed;
+  width: 22rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: #a6ddf0;
+  filter: blur(72px);
+  z-index: -1;
+  top: 40%;
+  left: -8rem
 }
 
 @media (max-width: 992px) {

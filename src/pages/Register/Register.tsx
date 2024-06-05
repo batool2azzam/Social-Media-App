@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Grid, TextField, Button, Typography, Link } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  Alert,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
@@ -26,6 +33,7 @@ const validationSchema = yup.object({
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +61,9 @@ const Register: React.FC = () => {
         navigate("/login");
       } catch (error) {
         console.error("Registration failed:", error);
+        setErrorMessage(
+          error.message || "Registration failed. Please try again."
+        );
       }
     },
   });
@@ -73,6 +84,11 @@ const Register: React.FC = () => {
         >
           Sign up
         </Typography>
+        {errorMessage && (
+          <Alert severity="error" onClose={() => setErrorMessage(null)}>
+            {errorMessage}
+          </Alert>
+        )}
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -139,7 +155,7 @@ const Register: React.FC = () => {
             variant="filled"
             id="image"
             name="image"
-            placeholder="uploade photo"
+            placeholder="Upload photo"
             onChange={handleFileChange}
             InputLabelProps={{
               shrink: true,

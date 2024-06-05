@@ -1,20 +1,23 @@
 .home {
-    padding: 20px;
-    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
 }
 
 .left-column,
 .right-column {
     height: 100vh;
-    position: sticky;
+    position: fixed;
     top: 0;
-    overflow: hidden;
 }
 
-.middle-column {
-    height: 100vh;
-    overflow-y: auto;
-    scrollbar-width: none;
+.right-column {
+    right: 0;
+}
+
+.left-column {
+    left: 0;
 }
 
 .share-button-right {
@@ -25,4 +28,13 @@
     text-transform: none;
     font-weight: bold;
     width: 100%;
+}
+
+@media (max-width: 900px) {
+
+    .left-column,
+    .right-column {
+        position: static;
+        height: auto;
+    }
 }
