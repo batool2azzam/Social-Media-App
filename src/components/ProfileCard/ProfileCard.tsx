@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, CardContent, Typography, Avatar, Box } from "@mui/material";
 import "./ProfileCard.css";
-import PostPic from "../../assets/images/profileImg.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCurrentUser } from "../../redux/userSlice";
 
 const ProfileCard: React.FC = () => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state: any) => state.user.currentUser);
+  const loading = useSelector((state: any) => state.user.loading);
+
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Card
       className="profile-card"
@@ -16,12 +29,16 @@ const ProfileCard: React.FC = () => {
       <Box className="background-img" />
       <CardContent>
         <Box display="flex" flexDirection="column" alignItems="center" mt={-8}>
-          <Avatar alt="Zendaya MJ" src={PostPic} className="profile-pic" />
+          <Avatar
+            alt={currentUser?.name}
+            src={currentUser?.profilePic}
+            className="profile-pic"
+          />
           <Typography variant="h6">
-            <strong>Zendaya MJ</strong>
+            <strong>{currentUser?.name}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            Senior UI/UX Designer
+            {currentUser?.designation}
           </Typography>
           <br />
           <Box
@@ -33,10 +50,10 @@ const ProfileCard: React.FC = () => {
           >
             <Typography variant="body2" align="center" className="profile-stat">
               <Typography variant="h6" align="center">
-                <b> 6,890 </b>
+                <b>{currentUser?.postsCount}</b>
               </Typography>
               <br />
-              Followings
+              Posts
             </Typography>
             <hr />
             <Typography
@@ -46,18 +63,18 @@ const ProfileCard: React.FC = () => {
               sx={{ borderTop: "2px", borderColor: "cadetblue" }}
             >
               <Typography variant="h6" align="center">
-                <b>1</b>
+                <b>{currentUser?.commentsCount}</b>
               </Typography>
               <br />
-              Followers
+              Comments
             </Typography>
             <hr />
             <Typography variant="body2" align="center" className="profile-stat">
               <Typography variant="h6" align="center">
-                <b>3</b>
+                <b>{currentUser?.likesCount}</b>
               </Typography>
               <br />
-              Posts
+              Likes
             </Typography>
           </Box>
         </Box>

@@ -10,6 +10,21 @@ export const fetchPosts = async (currentPage: number) => {
     }
 };
 
+export const addPostAPI = async (postData: FormData) => {
+    try {
+        const response = await api.post(`/posts`, postData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error("Error adding post:", error);
+        throw error.response.data;
+    }
+};
+
+
 export const register = async (userData: FormData) => {
     try {
         const response = await api.post(`/register`, userData, {
@@ -23,6 +38,19 @@ export const register = async (userData: FormData) => {
         throw error.response.data;
     }
 };
+export const getCurrentUser = () => {
+    try {
+        const storageUser = localStorage.getItem("user");
+        if (storageUser !== null) {
+            return JSON.parse(storageUser);
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching current user:", error);
+        throw error;
+    }
+};
+
 
 export const login = async (username: string, password: string) => {
     try {
