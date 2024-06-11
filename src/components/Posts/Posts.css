@@ -1,87 +1,54 @@
 .loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
 }
 
 .loader {
-    width: 48px;
-    height: 48px;
-    background: #ff5900;
-    display: block;
-    margin: 20px auto;
-    position: relative;
-    box-sizing: border-box;
-    animation: rotationBack 1s ease-in-out infinite reverse;
+  width: 48px;
+  height: 48px;
+  background: #ff5900;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotationBack 1s ease-in-out infinite reverse;
 }
 
 .loader::before {
-    content: '';
-    box-sizing: border-box;
-    left: 0;
-    top: 0;
-    transform: rotate(45deg);
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    background: #ff8000;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  content: '';
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  transform: rotate(45deg);
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background: #ff8000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 .loader::after {
-    content: '';
-    box-sizing: border-box;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    background: #FFF;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  content: '';
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #FFF;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes rotationBack {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-360deg);
-    }
-}
-
-/*.loader {
-  width: 320px;
-  height: 150px;
-  display: block;
-  margin: auto;
-  position: relative;
-  background: #FFF;
-  box-sizing: border-box;
-}
-.loader::after {
-  content: '';  
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-  top: 15px;
-  left: 15px;
-  position: absolute;
-  background-image: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5) 50%, transparent 80%), radial-gradient(circle 28px at 28px 28px, #DDD 99%, transparent 0), linear-gradient(#DDD 24px, transparent 0), linear-gradient(#DDD 18px, transparent 0), linear-gradient(#DDD 66px, transparent 0);
-  background-repeat: no-repeat;
-  background-size: 75px 130px, 55px 56px, 160px 30px, 260px 20px, 290px 56px;
-  background-position: 0% 0, 0 0, 70px 5px, 70px 38px, 0px 66px;
-  box-sizing: border-box;
-  animation: animloader 1s linear infinite;
-}
-
-@keyframes animloader {
   0% {
-    background-position: 0% 0, 0 0, 70px 5px, 70px 38px, 0px 66px;
+    transform: rotate(0deg);
   }
+
   100% {
-    background-position: 150% 0, 0 0, 70px 5px, 70px 38px, 0px 66px;
+    transform: rotate(-360deg);
   }
-}*/
+}

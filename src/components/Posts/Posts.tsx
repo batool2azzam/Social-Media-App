@@ -59,7 +59,7 @@ const Posts: React.FC = () => {
       console.log("Detaching scroll event listener");
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [morePosts, currentPage]);
+  }, [currentPage]);
 
   return (
     <div className="posts">
