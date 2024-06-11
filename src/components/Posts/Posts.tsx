@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { fetchPosts } from "../../api/api";
+import { fetchPosts } from "../../api/postApi";
 import Post from "../Post/Post";
 import "./Posts.css";
 import { PostData } from "../../types/types";
@@ -25,7 +25,6 @@ const Posts: React.FC = () => {
         setCurrentPage(page);
       }
     } catch (error: any) {
-      console.log("Failed to fetch posts.");
     } finally {
       setLoading(false);
       loadingRef.current = false;
@@ -33,30 +32,22 @@ const Posts: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("Component mounted, loading initial posts");
     loadPosts(currentPage);
   }, []);
 
   const handleScroll = () => {
-    console.log("Handle scroll triggered");
-    console.log("Window Height + Scroll:", window.innerHeight + window.scrollY);
-    console.log("Document Height:", document.body.offsetHeight);
-
     if (
       morePosts &&
       !loadingRef.current &&
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
-      console.log("Loading more posts");
       loadPosts(currentPage + 1);
     }
   };
 
   useEffect(() => {
-    console.log("Attaching scroll event listener");
     window.addEventListener("scroll", handleScroll);
     return () => {
-      console.log("Detaching scroll event listener");
       window.removeEventListener("scroll", handleScroll);
     };
   }, [morePosts, currentPage]);

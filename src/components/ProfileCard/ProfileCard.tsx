@@ -1,9 +1,29 @@
 import React from "react";
-import { Card, CardContent, Typography, Avatar, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Avatar,
+  Box,
+  Button,
+} from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
+import { logout } from "../../api/userApi";
 import "./ProfileCard.css";
-import PostPic from "../../assets/images/profileImg.jpg";
 
 const ProfileCard: React.FC = () => {
+  const navigate = useNavigate();
+  const { user, setUser } = useUser();
+
+  const handleLogout = () => {
+    logout();
+    setUser(null);
+    navigate("/login");
+    console.log("User logged out");
+  };
+
   return (
     <Card
       className="profile-card"
@@ -16,12 +36,16 @@ const ProfileCard: React.FC = () => {
       <Box className="background-img" />
       <CardContent>
         <Box display="flex" flexDirection="column" alignItems="center" mt={-8}>
-          <Avatar alt="Zendaya MJ" src={PostPic} className="profile-pic" />
+          <Avatar
+            alt={user?.name || "User Profile Picture"}
+            src={user?.profile_image || ""}
+            className="profile-pic"
+          />
           <Typography variant="h6">
-            <strong>Zendaya MJ</strong>
+            <strong>{user?.name || "User Name"}</strong>
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Senior UI/UX Designer
+          <Typography variant="body1" color="textSecondary">
+            {user?.username || "Username"}
           </Typography>
           <br />
           <Box
@@ -33,10 +57,18 @@ const ProfileCard: React.FC = () => {
           >
             <Typography variant="body2" align="center" className="profile-stat">
               <Typography variant="h6" align="center">
-                <b> 6,890 </b>
+                <b>5460</b>
               </Typography>
               <br />
-              Followings
+              followers
+            </Typography>
+            <hr />
+            <Typography variant="body2" align="center" className="profile-stat">
+              <Typography variant="h6" align="center">
+                <b>{user?.posts_count || 0}</b>
+              </Typography>
+              <br />
+              Posts
             </Typography>
             <hr />
             <Typography
@@ -46,21 +78,28 @@ const ProfileCard: React.FC = () => {
               sx={{ borderTop: "2px", borderColor: "cadetblue" }}
             >
               <Typography variant="h6" align="center">
-                <b>1</b>
+                <b>{user?.comments_count || 0}</b>
               </Typography>
               <br />
-              Followers
-            </Typography>
-            <hr />
-            <Typography variant="body2" align="center" className="profile-stat">
-              <Typography variant="h6" align="center">
-                <b>3</b>
-              </Typography>
-              <br />
-              Posts
+              Comments
             </Typography>
           </Box>
         </Box>
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          color="primary"
+          className="share-button-right"
+          sx={{
+            background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
+            color: "white",
+            borderRadius: 2,
+            marginTop: 2,
+          }}
+          endIcon={<LogoutIcon />}
+        >
+          Logout
+        </Button>
       </CardContent>
     </Card>
   );

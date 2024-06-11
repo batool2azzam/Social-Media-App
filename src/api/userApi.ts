@@ -1,14 +1,5 @@
 import api from "./apiConfig";
-
-export const fetchPosts = async (currentPage: number) => {
-    try {
-        const response = await api.get(`/posts?page=${currentPage}`);
-        return response.data.data;
-    } catch (error) {
-        console.error("Error fetching posts:", error);
-        throw error;
-    }
-};
+import { removeAuthToken } from '../utils/auth';
 
 export const register = async (userData: FormData) => {
     try {
@@ -26,13 +17,18 @@ export const register = async (userData: FormData) => {
 
 export const login = async (username: string, password: string) => {
     try {
-        const response = await api.post(`/login`, {
-            username,
-            password,
-        });
+        const response = await api.post(`/login`, { username, password });
+
+        localStorage.setItem('user', JSON.stringify(response.data));
+
         return response.data;
     } catch (error: any) {
         console.error("Error logging in:", error);
         throw error.response.data;
     }
 };
+
+export const logout = () => {
+    removeAuthToken();
+};
+

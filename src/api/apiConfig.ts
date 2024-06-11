@@ -5,7 +5,7 @@ const API_URL = "https://tarmeezacademy.com/api/v1";
 const api = axios.create({
     baseURL: API_URL,
     headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
     },
 });
 
