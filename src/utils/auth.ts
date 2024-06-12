@@ -16,3 +16,8 @@ export const isAuthenticated = (): boolean => {
     const token = getAuthToken();
     return !!token;
 };
+
+export const getLocalStorageUser = () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+};

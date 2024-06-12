@@ -1,20 +1,47 @@
-import React from "react";
-import "./Home.css";
+import React, { useEffect, useState } from "react";
+import "./Profile.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Posts from "../../components/Posts/Posts";
 import Trends from "../../components/Trends/Trends";
+import UserInfoCard from "../../components/UserInfoCard/UserInfoCard";
 import Followers from "../../components/Followers/Followers";
 import AddPost from "../../components/AddPost/AddPost";
 import { Button, Grid } from "@mui/material";
 import IconsGroup from "../../components/IconsGroup/IconsGroup";
 import Explore from "../../components/Explore/Explore";
+import { useParams } from "react-router-dom";
+import { fetchUserData } from "../../api/userApi";
+import { getLocalStorageUser } from "../../utils/auth";
+import { User } from "../../types/types";
 import { useUser } from "../../contexts/UserContext";
 
-const Home: React.FC = () => {
+const Profile: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
+  const [userr, setUser] = useState<User | null>(null);
   const { user } = useUser();
+  useEffect(() => {
+    const fetchData = async () => {
+      let profileData;
+      if (userId) {
+        profileData = await fetchUserData(Number(userId));
+      } else {
+        profileData = getLocalStorageUser();
+      }
+      setUser(profileData);
+    };
+
+    fetchData();
+  }, [userId]);
+
+  if (!userr)
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+      </div>
+    );
 
   return (
-    <Grid container spacing={3} className="home">
+    <Grid container spacing={3} className="profile">
       <Grid
         item
         xs={12}
@@ -23,12 +50,13 @@ const Home: React.FC = () => {
         sx={{ width: "100%", paddingRight: "24px" }}
       >
         <Explore />
-        <ProfileCard user={user} haveButton={true} />
+        <UserInfoCard user={userr} />
         <Followers />
       </Grid>
       <Grid item xs={12} md={6} className="middle-column">
-        <AddPost />
-        <Posts />
+        <ProfileCard haveButton={false} user={userr} />
+        {userId == user?.id && <AddPost />}
+        <Posts userId={userr.id} />
       </Grid>
       <Grid
         item
@@ -57,4 +85,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Profile;

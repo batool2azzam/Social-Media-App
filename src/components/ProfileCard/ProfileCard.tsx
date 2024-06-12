@@ -9,28 +9,37 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../contexts/UserContext";
-import { logout } from "../../api/userApi";
 import "./ProfileCard.css";
 
-const ProfileCard: React.FC = () => {
+interface ProfileCardProps {
+  haveButton: boolean;
+  user: any;
+}
+
+const ProfileCard: React.FC<ProfileCardProps> = ({
+  haveButton = true,
+  user,
+}) => {
   const navigate = useNavigate();
-  const { user, setUser } = useUser();
 
   const handleLogout = () => {
-    logout();
-    setUser(null);
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user");
     navigate("/login");
     console.log("User logged out");
+  };
+
+  const handleProfileClick = (userId: number) => {
+    navigate(`/profile/${userId}`);
   };
 
   return (
     <Card
       className="profile-card"
       sx={{
-        borderBottomLeftRadius: "20px",
-        borderBottomRightRadius: "20px",
+        borderRadius: "20px",
         padding: 0,
+        marginTop: 3,
       }}
     >
       <Box className="background-img" />
@@ -41,7 +50,13 @@ const ProfileCard: React.FC = () => {
             src={user?.profile_image || ""}
             className="profile-pic"
           />
-          <Typography variant="h6">
+          <Typography
+            variant="h6"
+            onClick={() => {
+              handleProfileClick(user?.id);
+            }}
+            sx={{ cursor: "pointer" }}
+          >
             <strong>{user?.name || "User Name"}</strong>
           </Typography>
           <Typography variant="body1" color="textSecondary">
@@ -57,7 +72,7 @@ const ProfileCard: React.FC = () => {
           >
             <Typography variant="body2" align="center" className="profile-stat">
               <Typography variant="h6" align="center">
-                <b>5460</b>
+                <b>546</b>
               </Typography>
               <br />
               followers
@@ -85,21 +100,23 @@ const ProfileCard: React.FC = () => {
             </Typography>
           </Box>
         </Box>
-        <Button
-          onClick={handleLogout}
-          variant="contained"
-          color="primary"
-          className="share-button-right"
-          sx={{
-            background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
-            color: "white",
-            borderRadius: 2,
-            marginTop: 2,
-          }}
-          endIcon={<LogoutIcon />}
-        >
-          Logout
-        </Button>
+        {haveButton && (
+          <Button
+            onClick={handleLogout}
+            variant="contained"
+            color="primary"
+            className="share-button-right"
+            sx={{
+              background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
+              color: "white",
+              borderRadius: 2,
+              marginTop: 2,
+            }}
+            endIcon={<LogoutIcon />}
+          >
+            Logout
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

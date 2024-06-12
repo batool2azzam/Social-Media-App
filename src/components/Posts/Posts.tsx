@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { fetchPosts } from "../../api/postApi";
+import { fetchPosts, fetchUserPosts } from "../../api/postApi";
 import Post from "../Post/Post";
 import "./Posts.css";
 import { PostData } from "../../types/types";
 
-const Posts: React.FC = () => {
+interface PostsProps {
+  userId?: number;
+}
+
+const Posts: React.FC<PostsProps> = ({ userId }) => {
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,7 +20,9 @@ const Posts: React.FC = () => {
     setLoading(true);
 
     try {
-      const newPosts = await fetchPosts(page);
+      const newPosts = userId
+        ? await fetchUserPosts(userId)
+        : await fetchPosts(page);
 
       if (newPosts.length === 0) {
         setMorePosts(false);
@@ -33,7 +39,7 @@ const Posts: React.FC = () => {
 
   useEffect(() => {
     loadPosts(currentPage);
-  }, []);
+  }, [userId]);
 
   const handleScroll = () => {
     if (
@@ -55,7 +61,7 @@ const Posts: React.FC = () => {
   return (
     <div className="posts">
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} userId={post.author.id} />
       ))}
       {loading && (
         <div className="loading-container">

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
+import Profile from "./pages/Profile/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import { UserProvider } from "./contexts/UserContext";
 import "./App.css";
@@ -16,6 +17,10 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route
+              path="/profile/:userId"
+              element={<PrivateRoute element={<Profile />} />}
+            />
             <Route path="/" element={<PrivateRoute element={<Home />} />} />
           </Routes>
         </div>

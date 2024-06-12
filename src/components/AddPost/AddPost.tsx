@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   TextField,
@@ -9,14 +9,13 @@ import {
   Dialog,
   DialogContent,
 } from "@mui/material";
-import "./AddPost.css";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useUser } from "../../contexts/UserContext";
 import { addPost } from "../../api/postApi";
-import { fetchPosts } from "../../api/postApi";
+import "./AddPost.css";
 
 const AddPost: React.FC = () => {
   const { user } = useUser();
@@ -25,7 +24,6 @@ const AddPost: React.FC = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  const [updatePosts, setUpdatePosts] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,6 +32,7 @@ const AddPost: React.FC = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -49,25 +48,11 @@ const AddPost: React.FC = () => {
     try {
       await addPost(title, body, image);
       handleClose();
-      const updatedPosts = await fetchPosts();
-      setUpdatePosts(updatedPosts);
     } catch (error) {
       console.error("Error adding post:", error);
     }
   };
 
-  useEffect(() => {
-    if (updatePosts) {
-      fetchPosts()
-        .then((data) => {
-          setUpdatePosts(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching posts:", error);
-          setUpdatePosts(false);
-        });
-    }
-  }, [updatePosts]);
   const postContent = (
     <>
       <Box display="flex" alignItems="center" marginBottom={2}>

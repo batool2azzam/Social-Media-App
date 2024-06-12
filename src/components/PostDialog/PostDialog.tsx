@@ -11,12 +11,13 @@ import {
   Avatar,
   Grid,
   Card,
+  TextField,
 } from "@mui/material";
 import LikeIcon from "../../assets/images/like.png";
 import CommentIcon from "../../assets/images/comment.png";
 import ShareIcon from "../../assets/images/share.png";
 import { PostData, Comment } from "../../types/types";
-import { fetchPostWithComments } from "../../api/postApi";
+import { fetchPostWithComments, addComment } from "../../api/postApi";
 import "./PostDialog.css";
 
 const PostDialog: React.FC<{
@@ -25,6 +26,7 @@ const PostDialog: React.FC<{
   open: boolean;
 }> = ({ postId, onClose, open }) => {
   const [postData, setPostData] = useState<PostData | null>(null);
+  const [newComment, setNewComment] = useState("");
 
   useEffect(() => {
     if (open && postId) {
@@ -33,6 +35,18 @@ const PostDialog: React.FC<{
         .catch((error) => console.error("Error fetching post data:", error));
     }
   }, [open, postId]);
+
+  const handleCommentSubmit = async () => {
+    if (!newComment) return;
+    try {
+      await addComment(postId, newComment);
+      const updatedPost = await fetchPostWithComments(postId);
+      setPostData(updatedPost);
+      setNewComment("");
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   return (
     <Dialog
@@ -106,7 +120,17 @@ const PostDialog: React.FC<{
             </Typography>
             <Box mt={2}>
               {postData.comments.map((comment: Comment) => (
-                <Box key={comment.id} display="flex" alignItems="center" mb={2}>
+                <Box
+                  key={comment.id}
+                  display="flex"
+                  alignItems="center"
+                  mb={2}
+                  sx={{
+                    background: "rgba(0, 0, 0, 0.06)",
+                    padding: 1,
+                    borderRadius: 2,
+                  }}
+                >
                   <Avatar
                     alt={comment.author.name}
                     src={comment.author.profile_image}
@@ -120,6 +144,29 @@ const PostDialog: React.FC<{
                   </Box>
                 </Box>
               ))}
+            </Box>
+            <Box mt={2} display="flex" alignItems="center">
+              <TextField
+                fullWidth
+                label="Add a comment"
+                variant="filled"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
+                  color: "white",
+                  borderRadius: 2,
+                  paddingX: 2,
+                  lineHeight: 3,
+                }}
+                onClick={handleCommentSubmit}
+              >
+                Comment
+              </Button>
             </Box>
           </DialogContent>
           <DialogActions>
