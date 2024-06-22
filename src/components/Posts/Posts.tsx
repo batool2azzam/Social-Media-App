@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
 import { fetchPosts, fetchUserPosts } from "../../api/postApi";
 import Post from "../Post/Post";
 import "./Posts.css";
@@ -8,7 +14,7 @@ interface PostsProps {
   userId?: number;
 }
 
-const Posts: React.FC<PostsProps> = ({ userId }) => {
+const Posts = forwardRef<any, PostsProps>(({ userId }, ref) => {
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -31,11 +37,30 @@ const Posts: React.FC<PostsProps> = ({ userId }) => {
         setCurrentPage(page);
       }
     } catch (error: any) {
+      console.error("Error fetching posts:", error);
     } finally {
       setLoading(false);
       loadingRef.current = false;
     }
   };
+
+  const refreshPosts = async () => {
+    setLoading(true);
+    try {
+      const newPosts = await fetchPosts(1);
+      setPosts((prevPosts) => [...newPosts, ...prevPosts]);
+      setCurrentPage(1);
+      setMorePosts(true);
+    } catch (error: any) {
+      console.error("Error refreshing posts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    refreshPosts,
+  }));
 
   useEffect(() => {
     loadPosts(currentPage);
@@ -58,10 +83,19 @@ const Posts: React.FC<PostsProps> = ({ userId }) => {
     };
   }, [morePosts, currentPage]);
 
+  const handleDeletePost = (postId: number) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+  };
+
   return (
     <div className="posts">
       {posts.map((post) => (
-        <Post key={post.id} post={post} userId={post.author.id} />
+        <Post
+          key={post.id}
+          post={post}
+          userId={post.author.id}
+          onDelete={handleDeletePost}
+        />
       ))}
       {loading && (
         <div className="loading-container">
@@ -70,6 +104,6 @@ const Posts: React.FC<PostsProps> = ({ userId }) => {
       )}
     </div>
   );
-};
+});
 
 export default Posts;

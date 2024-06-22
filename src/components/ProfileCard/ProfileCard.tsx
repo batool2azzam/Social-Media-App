@@ -1,3 +1,4 @@
+// ProfileCard.tsx
 import React from "react";
 import {
   Card,
@@ -9,11 +10,12 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
+import { User } from "../../types/types";
 import "./ProfileCard.css";
 
 interface ProfileCardProps {
   haveButton: boolean;
-  user: any;
+  user: User | null;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -53,7 +55,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <Typography
             variant="h6"
             onClick={() => {
-              handleProfileClick(user?.id);
+              if (user?.id) handleProfileClick(user.id);
             }}
             sx={{ cursor: "pointer" }}
           >

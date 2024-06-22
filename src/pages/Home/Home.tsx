@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Home.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Posts from "../../components/Posts/Posts";
@@ -12,6 +12,13 @@ import { useUser } from "../../contexts/UserContext";
 
 const Home: React.FC = () => {
   const { user } = useUser();
+  const postsRef = useRef<any>();
+
+  const refreshPosts = () => {
+    if (postsRef.current) {
+      postsRef.current.refreshPosts();
+    }
+  };
 
   return (
     <Grid container spacing={3} className="home">
@@ -27,8 +34,8 @@ const Home: React.FC = () => {
         <Followers />
       </Grid>
       <Grid item xs={12} md={6} className="middle-column">
-        <AddPost />
-        <Posts />
+        <AddPost onPostAdded={refreshPosts} />
+        <Posts ref={postsRef} />
       </Grid>
       <Grid
         item

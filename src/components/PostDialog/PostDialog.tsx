@@ -1,3 +1,4 @@
+// PostDialog.tsx
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -18,6 +19,7 @@ import CommentIcon from "../../assets/images/comment.png";
 import ShareIcon from "../../assets/images/share.png";
 import { PostData, Comment } from "../../types/types";
 import { fetchPostWithComments, addComment } from "../../api/postApi";
+import { useUser } from "../../contexts/UserContext";
 import "./PostDialog.css";
 
 const PostDialog: React.FC<{
@@ -25,6 +27,7 @@ const PostDialog: React.FC<{
   onClose: () => void;
   open: boolean;
 }> = ({ postId, onClose, open }) => {
+  const { setUser } = useUser();
   const [postData, setPostData] = useState<PostData | null>(null);
   const [newComment, setNewComment] = useState("");
 
@@ -43,6 +46,13 @@ const PostDialog: React.FC<{
       const updatedPost = await fetchPostWithComments(postId);
       setPostData(updatedPost);
       setNewComment("");
+      setUser((prevUser) => {
+        if (!prevUser) return prevUser;
+        return {
+          ...prevUser,
+          comments_count: prevUser.comments_count + 1,
+        };
+      });
     } catch (error) {
       console.error("Error adding comment:", error);
     }

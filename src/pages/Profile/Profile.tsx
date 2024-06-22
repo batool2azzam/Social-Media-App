@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Profile.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Posts from "../../components/Posts/Posts";
@@ -17,8 +17,16 @@ import { useUser } from "../../contexts/UserContext";
 
 const Profile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
-  const [userr, setUser] = useState<User | null>(null);
+  const [userr, setUserr] = useState<User | null>(null);
   const { user } = useUser();
+  const postsRef = useRef<any>();
+
+  const refreshPosts = () => {
+    if (postsRef.current) {
+      postsRef.current.refreshPosts();
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       let profileData;
@@ -27,7 +35,7 @@ const Profile: React.FC = () => {
       } else {
         profileData = getLocalStorageUser();
       }
-      setUser(profileData);
+      setUserr(profileData);
     };
 
     fetchData();
@@ -55,8 +63,8 @@ const Profile: React.FC = () => {
       </Grid>
       <Grid item xs={12} md={6} className="middle-column">
         <ProfileCard haveButton={false} user={userr} />
-        {userId == user?.id && <AddPost />}
-        <Posts userId={userr.id} />
+        {Number(userId) === user?.id && <AddPost onPostAdded={refreshPosts} />}
+        <Posts userId={userr.id} ref={postsRef} />
       </Grid>
       <Grid
         item

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import {
-  Card,
+  Box,
   TextField,
   Button,
-  Box,
   Avatar,
   Grid,
   Dialog,
   DialogContent,
+  Card,
 } from "@mui/material";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
@@ -15,11 +15,16 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { useUser } from "../../contexts/UserContext";
 import { addPost } from "../../api/postApi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AddPost.css";
 
-const AddPost: React.FC = () => {
-  const { user } = useUser();
+interface AddPostProps {
+  onPostAdded: () => void;
+}
 
+const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
+  const { user, setUser } = useUser();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -39,103 +44,108 @@ const AddPost: React.FC = () => {
     }
   };
 
+  const clearFields = () => {
+    setTitle("");
+    setBody("");
+    setImage(null);
+  };
+
   const handleSharePost = async () => {
     if (!title || !body || !image) {
-      console.error("Fill all fields!");
+      toast.error("Please fill all fields!");
       return;
     }
 
     try {
       await addPost(title, body, image);
       handleClose();
+      clearFields();
+      toast.success("Post added successfully!");
+      setUser((prevUser) => {
+        if (!prevUser) return prevUser;
+        return {
+          ...prevUser,
+          posts_count: prevUser.posts_count + 1,
+        };
+      });
+
+      onPostAdded();
     } catch (error) {
-      console.error("Error adding post:", error);
+      toast.error("Error adding post.");
     }
   };
 
-  const postContent = (
-    <>
-      <Box display="flex" alignItems="center" marginBottom={2}>
-        <Avatar
-          sx={{
-            width: "55px",
-            height: "55px",
-          }}
-          alt="Profile Picture"
-          src={user?.profile_image}
-          className="profile-pic-add"
-        />
-        <TextField
-          fullWidth
-          placeholder="What's happening"
-          multiline
-          rows={1}
-          margin="normal"
-          className="text-input"
-          onClick={handleClickOpen}
-        />
-      </Box>
-      <Grid
-        container
-        display="flex"
-        alignItems="center"
-        justifyContent="space-around"
-        className="icons-group"
-      >
-        <Button
-          sx={{ color: "#3da468" }}
-          variant="text"
-          startIcon={<AddPhotoAlternateIcon className="add-post-icon" />}
-        >
-          Photo
-        </Button>
-        <Button
-          sx={{ color: "#677bcd" }}
-          variant="text"
-          startIcon={<PlayCircleOutlineIcon className="add-post-icon" />}
-        >
-          Video
-        </Button>
-        <Button
-          sx={{ color: "#f87878" }}
-          variant="text"
-          startIcon={<LocationOnOutlinedIcon className="add-post-icon" />}
-        >
-          Location
-        </Button>
-        <Button
-          sx={{ marginRight: "35px" }}
-          variant="text"
-          startIcon={<CalendarMonthOutlinedIcon className="add-post-icon" />}
-        >
-          Schedule
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          className="share-button"
-          sx={{
-            background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
-            color: "white",
-            borderRadius: 2,
-            paddingX: 3,
-          }}
-        >
-          Share
-        </Button>
-      </Grid>
-    </>
-  );
-
   return (
     <div>
-      <Card
-        className="add-post"
-        sx={{
-          borderRadius: "10px",
-        }}
-      >
-        {postContent}
+      <ToastContainer position="bottom-right" />
+      <Card className="add-post" sx={{ borderRadius: "10px" }}>
+        <Box display="flex" alignItems="center" marginBottom={2}>
+          <Avatar
+            sx={{ width: "55px", height: "55px" }}
+            alt="Profile Picture"
+            src={user?.profile_image}
+            className="profile-pic-add"
+          />
+          <TextField
+            fullWidth
+            placeholder="What's happening"
+            multiline
+            rows={1}
+            margin="normal"
+            className="text-input"
+            onClick={handleClickOpen}
+          />
+        </Box>
+        <Grid
+          container
+          display="flex"
+          alignItems="center"
+          justifyContent="space-around"
+          className="icons-group"
+        >
+          <Button
+            sx={{ color: "#3da468" }}
+            variant="text"
+            startIcon={<AddPhotoAlternateIcon className="add-post-icon" />}
+          >
+            Photo
+          </Button>
+          <Button
+            sx={{ color: "#677bcd" }}
+            variant="text"
+            startIcon={<PlayCircleOutlineIcon className="add-post-icon" />}
+          >
+            Video
+          </Button>
+          <Button
+            sx={{ color: "#f87878" }}
+            variant="text"
+            startIcon={<LocationOnOutlinedIcon className="add-post-icon" />}
+          >
+            Location
+          </Button>
+          <Button
+            sx={{ marginRight: "35px" }}
+            variant="text"
+            startIcon={<CalendarMonthOutlinedIcon className="add-post-icon" />}
+          >
+            Schedule
+          </Button>
+          <Button
+            onClick={handleClickOpen}
+            variant="contained"
+            color="primary"
+            className="share-button"
+            sx={{
+              background: "linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%)",
+              color: "white",
+              borderRadius: 2,
+              paddingX: 3,
+            }}
+          >
+            Share
+          </Button>
+        </Grid>
       </Card>
 
       <Dialog
@@ -170,10 +180,7 @@ const AddPost: React.FC = () => {
           >
             <Box display="flex" alignItems="center" marginBottom={2}>
               <Avatar
-                sx={{
-                  width: "55px",
-                  height: "55px",
-                }}
+                sx={{ width: "55px", height: "55px" }}
                 alt="Profile Picture"
                 src={user?.profile_image}
                 className="profile-pic-add"
@@ -220,53 +227,28 @@ const AddPost: React.FC = () => {
             </Button>
 
             {image && (
-              <Box mt={2} textAlign="center">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                marginTop={2}
+              >
                 <img
                   src={URL.createObjectURL(image)}
-                  alt="Uploaded"
-                  style={{ maxWidth: "100%" }}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    objectFit: "cover",
+                    marginTop: "10px",
+                    borderRadius: "10px",
+                    alignSelf: "center",
+                  }}
                 />
               </Box>
             )}
 
-            <Grid
-              container
-              display="flex"
-              alignItems="center"
-              justifyContent="space-around"
-              className="icons-group"
-              sx={{ marginTop: 2 }}
-            >
-              <Button
-                sx={{ color: "#3da468" }}
-                variant="text"
-                startIcon={<AddPhotoAlternateIcon className="add-post-icon" />}
-              >
-                Photo
-              </Button>
-              <Button
-                sx={{ color: "#677bcd" }}
-                variant="text"
-                startIcon={<PlayCircleOutlineIcon className="add-post-icon" />}
-              >
-                Video
-              </Button>
-              <Button
-                sx={{ color: "#f87878" }}
-                variant="text"
-                startIcon={<LocationOnOutlinedIcon className="add-post-icon" />}
-              >
-                Location
-              </Button>
-              <Button
-                sx={{ marginRight: "35px" }}
-                variant="text"
-                startIcon={
-                  <CalendarMonthOutlinedIcon className="add-post-icon" />
-                }
-              >
-                Schedule
-              </Button>
+            <Box display="flex" justifyContent="flex-end" marginTop={2}>
               <Button
                 onClick={handleSharePost}
                 variant="contained"
@@ -282,7 +264,7 @@ const AddPost: React.FC = () => {
               >
                 Share
               </Button>
-            </Grid>
+            </Box>
           </Card>
         </DialogContent>
       </Dialog>
