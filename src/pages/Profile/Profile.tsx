@@ -11,14 +11,14 @@ import IconsGroup from "../../components/IconsGroup/IconsGroup";
 import Explore from "../../components/Explore/Explore";
 import { useParams } from "react-router-dom";
 import { fetchUserData } from "../../api/userApi";
-import { getLocalStorageUser } from "../../utils/auth";
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 import { User } from "../../types/types";
-import { useUser } from "../../contexts/UserContext";
 
 const Profile: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const [userr, setUserr] = useState<User | null>(null);
-  const { user } = useUser();
+  const user = useSelector((state: RootState) => state.user.user);
   const postsRef = useRef<any>();
 
   const refreshPosts = () => {
@@ -33,13 +33,13 @@ const Profile: React.FC = () => {
       if (userId) {
         profileData = await fetchUserData(Number(userId));
       } else {
-        profileData = getLocalStorageUser();
+        profileData = user;
       }
       setUserr(profileData);
     };
 
     fetchData();
-  }, [userId]);
+  }, [userId, user]);
 
   if (!userr)
     return (

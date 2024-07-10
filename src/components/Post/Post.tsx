@@ -20,7 +20,9 @@ import ShareIcon from "../../assets/images/share.png";
 import PostDialog from "../PostDialog/PostDialog";
 import { useNavigate } from "react-router-dom";
 import { PostData } from "../../types/types";
-import { useUser } from "../../contexts/UserContext";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
+import { setUser } from "../../store/features/user/userSlice";
 import { deletePost, editPost } from "../../api/postApi";
 import { getAuthToken } from "../../utils/auth";
 import { ToastContainer, toast } from "react-toastify";
@@ -35,7 +37,8 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post: initialPost, userId, onDelete }) => {
   const navigate = useNavigate();
-  const { user, setUser } = useUser();
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
   const token: string = getAuthToken();
   const [post, setPost] = useState(initialPost);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -81,13 +84,12 @@ const Post: React.FC<PostProps> = ({ post: initialPost, userId, onDelete }) => {
       onDelete(post.id);
       toast.success("Post deleted successfully!");
 
-      setUser((prevUser) => {
-        if (!prevUser) return prevUser;
-        return {
-          ...prevUser,
-          posts_count: prevUser.posts_count - 1,
-        };
-      });
+      dispatch(
+        setUser({
+          ...user,
+          posts_count: user ? user.posts_count - 1 : 0,
+        })
+      );
     } catch (error) {
       console.error("Error deleting post:", error);
       toast.error("Error deleting post.");
@@ -105,7 +107,6 @@ const Post: React.FC<PostProps> = ({ post: initialPost, userId, onDelete }) => {
 
   return (
     <Card key={post.id} className="post" sx={{ borderRadius: "10px" }}>
-      <ToastContainer position="bottom-right" />
       <Box
         display="flex"
         alignItems="center"

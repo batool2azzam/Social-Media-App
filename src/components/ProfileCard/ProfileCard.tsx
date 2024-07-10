@@ -1,4 +1,3 @@
-// ProfileCard.tsx
 import React from "react";
 import {
   Card,

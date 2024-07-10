@@ -8,10 +8,11 @@ import AddPost from "../../components/AddPost/AddPost";
 import { Button, Grid } from "@mui/material";
 import IconsGroup from "../../components/IconsGroup/IconsGroup";
 import Explore from "../../components/Explore/Explore";
-import { useUser } from "../../contexts/UserContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Home: React.FC = () => {
-  const { user } = useUser();
+  const user = useSelector((state: RootState) => state.user.user);
   const postsRef = useRef<any>();
 
   const refreshPosts = () => {

@@ -13,7 +13,9 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
-import { useUser } from "../../contexts/UserContext";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
+import { setUser } from "../../store/features/user/userSlice";
 import { addPost } from "../../api/postApi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,7 +26,8 @@ interface AddPostProps {
 }
 
 const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
-  const { user, setUser } = useUser();
+  const user = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -61,13 +64,12 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
       handleClose();
       clearFields();
       toast.success("Post added successfully!");
-      setUser((prevUser) => {
-        if (!prevUser) return prevUser;
-        return {
-          ...prevUser,
-          posts_count: prevUser.posts_count + 1,
-        };
-      });
+      dispatch(
+        setUser({
+          ...user,
+          posts_count: user ? user.posts_count + 1 : 1,
+        })
+      );
 
       onPostAdded();
     } catch (error) {
@@ -77,7 +79,6 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
 
   return (
     <div>
-      <ToastContainer position="bottom-right" />
       <Card className="add-post" sx={{ borderRadius: "10px" }}>
         <Box display="flex" alignItems="center" marginBottom={2}>
           <Avatar
