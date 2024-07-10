@@ -4,9 +4,6 @@ const API_URL = "https://tarmeezacademy.com/api/v1";
 
 const api = axios.create({
     baseURL: API_URL,
-    headers: {
-        "Content-Type": "application/json",
-    },
 });
 
 api.interceptors.request.use(
@@ -15,6 +12,10 @@ api.interceptors.request.use(
         if (token) {
             config.headers["Authorization"] = `Bearer ${token}`;
         }
+        if (!config.headers["Content-Type"]) {
+            config.headers["Content-Type"] = "application/json";
+        }
+
         return config;
     },
     (error) => {
@@ -27,7 +28,7 @@ api.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
             console.error("Unauthorized access - possibly invalid token");
             localStorage.removeItem("auth_token");
             window.location.href = "/login";

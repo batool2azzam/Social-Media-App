@@ -11,8 +11,10 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { login } from "../../api/api";
+import { login } from "../../api/userApi";
 import { setAuthToken } from "../../utils/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/features/user/userSlice";
 import "./Login.css";
 
 // Validation schema
@@ -21,12 +23,13 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .min(6, "Password must be at least 6 characters"),
 });
 
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -39,6 +42,7 @@ const Login = () => {
         const data = await login(values.username, values.password);
         console.log("Login successful:", data);
         setAuthToken(data.token);
+        dispatch(setUser(data.user));
         navigate("/");
       } catch (error: any) {
         console.error("Login failed:", error);

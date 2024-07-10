@@ -1,10 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { fetchPosts } from "../../api/api";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef,
+} from "react";
+import { fetchPosts, fetchUserPosts } from "../../api/postApi";
 import Post from "../Post/Post";
 import "./Posts.css";
 import { PostData } from "../../types/types";
 
-const Posts: React.FC = () => {
+interface PostsProps {
+  userId?: number;
+}
+
+const Posts = forwardRef<any, PostsProps>(({ userId }, ref) => {
   const [posts, setPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,7 +26,9 @@ const Posts: React.FC = () => {
     setLoading(true);
 
     try {
-      const newPosts = await fetchPosts(page);
+      const newPosts = userId
+        ? await fetchUserPosts(userId)
+        : await fetchPosts(page);
 
       if (newPosts.length === 0) {
         setMorePosts(false);
@@ -25,46 +37,65 @@ const Posts: React.FC = () => {
         setCurrentPage(page);
       }
     } catch (error: any) {
-      console.log("Failed to fetch posts.");
+      console.error("Error fetching posts:", error);
     } finally {
       setLoading(false);
       loadingRef.current = false;
     }
   };
 
+  const refreshPosts = async () => {
+    setLoading(true);
+    try {
+      const newPosts = await fetchPosts(1);
+      setPosts((prevPosts) => [...newPosts, ...prevPosts]);
+      setCurrentPage(1);
+      setMorePosts(true);
+    } catch (error: any) {
+      console.error("Error refreshing posts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useImperativeHandle(ref, () => ({
+    refreshPosts,
+  }));
+
   useEffect(() => {
-    console.log("Component mounted, loading initial posts");
     loadPosts(currentPage);
-  }, []);
+  }, [userId]);
 
   const handleScroll = () => {
-    console.log("Handle scroll triggered");
-    console.log("Window Height + Scroll:", window.innerHeight + window.scrollY);
-    console.log("Document Height:", document.body.offsetHeight);
-
     if (
       morePosts &&
       !loadingRef.current &&
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
-      console.log("Loading more posts");
       loadPosts(currentPage + 1);
     }
   };
 
   useEffect(() => {
-    console.log("Attaching scroll event listener");
     window.addEventListener("scroll", handleScroll);
     return () => {
-      console.log("Detaching scroll event listener");
       window.removeEventListener("scroll", handleScroll);
     };
   }, [currentPage]);
 
+  const handleDeletePost = (postId: number) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+  };
+
   return (
     <div className="posts">
       {posts.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post
+          key={post.id}
+          post={post}
+          userId={post.author.id}
+          onDelete={handleDeletePost}
+        />
       ))}
       {loading && (
         <div className="loading-container">
@@ -73,6 +104,6 @@ const Posts: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Posts;

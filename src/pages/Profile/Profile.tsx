@@ -1,17 +1,23 @@
-import React, { useRef } from "react";
-import "./Home.css";
+import React, { useEffect, useRef, useState } from "react";
+import "./Profile.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Posts from "../../components/Posts/Posts";
 import Trends from "../../components/Trends/Trends";
+import UserInfoCard from "../../components/UserInfoCard/UserInfoCard";
 import Followers from "../../components/Followers/Followers";
 import AddPost from "../../components/AddPost/AddPost";
 import { Button, Grid } from "@mui/material";
 import IconsGroup from "../../components/IconsGroup/IconsGroup";
 import Explore from "../../components/Explore/Explore";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchUserData } from "../../api/userApi";
 import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { User } from "../../types/types";
 
-const Home: React.FC = () => {
+const Profile: React.FC = () => {
+  const { userId } = useParams<{ userId: string }>();
+  const [userr, setUserr] = useState<User | null>(null);
   const user = useSelector((state: RootState) => state.user.user);
   const postsRef = useRef<any>();
 
@@ -21,8 +27,29 @@ const Home: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      let profileData;
+      if (userId) {
+        profileData = await fetchUserData(Number(userId));
+      } else {
+        profileData = user;
+      }
+      setUserr(profileData);
+    };
+
+    fetchData();
+  }, [userId, user]);
+
+  if (!userr)
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+      </div>
+    );
+
   return (
-    <Grid container spacing={3} className="home">
+    <Grid container spacing={3} className="profile">
       <Grid
         item
         xs={12}
@@ -31,12 +58,13 @@ const Home: React.FC = () => {
         sx={{ width: "100%", paddingRight: "24px" }}
       >
         <Explore />
-        <ProfileCard user={user} haveButton={true} />
+        <UserInfoCard user={userr} />
         <Followers />
       </Grid>
       <Grid item xs={12} md={6} className="middle-column">
-        <AddPost onPostAdded={refreshPosts} />
-        <Posts ref={postsRef} />
+        <ProfileCard haveButton={false} user={userr} />
+        {Number(userId) === user?.id && <AddPost onPostAdded={refreshPosts} />}
+        <Posts userId={userr.id} ref={postsRef} />
       </Grid>
       <Grid
         item
@@ -65,4 +93,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Profile;

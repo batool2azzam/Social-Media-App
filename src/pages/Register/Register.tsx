@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { register } from "../../api/api";
+import { register } from "../../api/userApi";
 import "./Register.css";
 
 // Validation schema
