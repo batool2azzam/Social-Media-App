@@ -1,10 +1,21 @@
-import React from "react";
-import { Grid, TextField, Button, Typography, Link } from "@mui/material";
+import { useState } from "react";
+import {
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  Alert,
+} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { login } from "../../api/api";
+import { login } from "../../api/userApi";
+import { setAuthToken } from "../../utils/auth";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/features/user/userSlice";
+
 import "./Login.css";
 
 // Validation schema
@@ -13,11 +24,13 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .min(6, "Password must be at least 6 characters"),
 });
-
-const Login: React.FC = () => {
+const Login = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch();
+
 
   const formik = useFormik({
     initialValues: {
@@ -25,13 +38,17 @@ const Login: React.FC = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values: any) => {
+
+    onSubmit: async (values) => {
       try {
         const data = await login(values.username, values.password);
         console.log("Login successful:", data);
+        setAuthToken(data.token);
+        dispatch(setUser(data.user));
         navigate("/");
-      } catch (error) {
+      } catch (error: any) {
         console.error("Login failed:", error);
+        setErrorMessage(error.message || "Login failed. Please try again.");
       }
     },
   });
@@ -46,6 +63,11 @@ const Login: React.FC = () => {
         >
           Log In
         </Typography>
+        {errorMessage && (
+          <Alert severity="error" onClose={() => setErrorMessage(null)}>
+            {errorMessage}
+          </Alert>
+        )}
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
@@ -54,6 +76,8 @@ const Login: React.FC = () => {
             variant="filled"
             id="username"
             name="username"
+            autoComplete="off"
+
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
