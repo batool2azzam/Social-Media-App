@@ -81,7 +81,7 @@ const Posts = forwardRef<any, PostsProps>(({ userId }, ref) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [morePosts, currentPage]);
+  }, [currentPage]);
 
   const handleDeletePost = (postId: number) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
