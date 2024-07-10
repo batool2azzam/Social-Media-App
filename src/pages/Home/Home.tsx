@@ -1,7 +1,9 @@
+
 import React, { useRef } from "react";
 import "./Home.css";
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Posts from "../../components/Posts/Posts";
+
 import Trends from "../../components/Trends/Trends";
 import Followers from "../../components/Followers/Followers";
 import AddPost from "../../components/AddPost/AddPost";

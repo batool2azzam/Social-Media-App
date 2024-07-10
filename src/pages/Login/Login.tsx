@@ -15,6 +15,7 @@ import { login } from "../../api/userApi";
 import { setAuthToken } from "../../utils/auth";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/features/user/userSlice";
+
 import "./Login.css";
 
 // Validation schema
@@ -25,11 +26,11 @@ const validationSchema = yup.object({
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
 });
-
 const Login = () => {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
+
 
   const formik = useFormik({
     initialValues: {
@@ -37,6 +38,7 @@ const Login = () => {
       password: "",
     },
     validationSchema: validationSchema,
+
     onSubmit: async (values) => {
       try {
         const data = await login(values.username, values.password);
@@ -75,6 +77,7 @@ const Login = () => {
             id="username"
             name="username"
             autoComplete="off"
+
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

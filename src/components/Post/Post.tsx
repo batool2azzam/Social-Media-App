@@ -1,3 +1,4 @@
+
 // Post.tsx
 import React, { useState } from "react";
 import {
@@ -271,6 +272,7 @@ const Post: React.FC<PostProps> = ({ post: initialPost, userId, onDelete }) => {
         </DialogActions>
       </Dialog>
     </Card>
+
   );
 };
 

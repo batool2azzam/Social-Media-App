@@ -7,11 +7,13 @@ import {
   Link,
   Alert,
 } from "@mui/material";
+
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthLayout from "../../components/AuthLayout/AuthLayout";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { register } from "../../api/userApi";
+
 import "./Register.css";
 
 // Validation schema
@@ -34,6 +36,7 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
   const formik = useFormik({
     initialValues: {
@@ -64,6 +67,7 @@ const Register: React.FC = () => {
         setErrorMessage(
           error.message || "Registration failed. Please try again."
         );
+
       }
     },
   });
@@ -156,6 +160,7 @@ const Register: React.FC = () => {
             id="image"
             name="image"
             placeholder="Upload photo"
+
             onChange={handleFileChange}
             InputLabelProps={{
               shrink: true,

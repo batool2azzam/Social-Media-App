@@ -5,6 +5,7 @@ import homeIcon from "../../assets/images/home.png";
 import settingsIcon from "../../assets/images/share.png";
 import bellIcon from "../../assets/images/noti.png";
 import chatIcon from "../../assets/images/comment.png";
+
 import { useNavigate } from "react-router-dom";
 
 const IconsGroup: React.FC = () => {
@@ -17,6 +18,7 @@ const IconsGroup: React.FC = () => {
           navigate("/");
         }}
       >
+
         <img src={homeIcon} alt="Home" className="icon" />
       </IconButton>
       <IconButton>

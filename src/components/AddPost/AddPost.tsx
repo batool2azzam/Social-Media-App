@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   DialogContent,
   Card,
 } from "@mui/material";
+
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -270,6 +272,8 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
         </DialogContent>
       </Dialog>
     </div>
+
+
   );
 };
 

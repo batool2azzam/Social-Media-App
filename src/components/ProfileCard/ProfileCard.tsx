@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Card,
   CardContent,
@@ -33,11 +34,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   const handleProfileClick = (userId: number) => {
     navigate(`/profile/${userId}`);
   };
-
   return (
     <Card
       className="profile-card"
       sx={{
+
         borderRadius: "20px",
         padding: 0,
         marginTop: 3,
@@ -85,6 +86,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               </Typography>
               <br />
               Posts
+
             </Typography>
             <hr />
             <Typography
@@ -94,6 +96,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               sx={{ borderTop: "2px", borderColor: "cadetblue" }}
             >
               <Typography variant="h6" align="center">
+
                 <b>{user?.comments_count || 0}</b>
               </Typography>
               <br />
@@ -118,6 +121,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             Logout
           </Button>
         )}
+
       </CardContent>
     </Card>
   );
