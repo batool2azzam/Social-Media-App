@@ -49,20 +49,13 @@ This project is a social media application built using React and TypeScript. The
 
 ### 5. Add/Edit Post Screen
 - Allows users to create a new post or edit an existing post.
-- ![image](https://github.com/batool2azzam/Social-Media-App/assets/122049115/ebeb9709-d023-46d7-a6be-194d43dde32f)
+- ![image](https://github.com/user-attachments/assets/46f3fa6d-8957-4274-87dd-91c6488c35fb)
 - ![image](https://github.com/user-attachments/assets/40e26717-7f10-428c-bf23-97be55871a03)
 
 ### 6. Add Comment
 - Allows users to add comments to other users' posts. 
 - ![image](https://github.com/user-attachments/assets/5c18b6ba-e60a-4fac-92bf-966396f1bd69)
 
-### 7. Post Detail Screen
-- Displays the details of a single post, including comments and options to add comments.
-- ![image](https://github.com/user-attachments/assets/73fc1579-72b0-4f3a-9e13-aa18708a31dd)
-- 
-### 8. Settings Screen
-- Allows users to log out and manage account settings.
-- ![image](https://github.com/user-attachments/assets/81f08899-f0b0-4a23-85d5-8008a0dfb100)
 
 
 ## Installation
